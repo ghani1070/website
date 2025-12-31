@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeri Kung Fu Panda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark">
+
+<header class="top-nav">
+    <h1 class="logo">Kung Fu Panda</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="gambar.html" class="active">Galeri</a>
+    </nav>
+</header>
+
+<!-- HERO BANNER -->
+<section class="hero-banner">
+    <div class="hero-overlay">
+        <h2>KUNG FU PANDA</h2>
+        <p>Kisah pendekar legendaris dari Lembah Damai</p>
+        <button class="hero-btn">Lihat Karakter</button>
+    </div>
+</section>
+
+<!-- POPULAR CHARACTERS -->
+<section class="store-section">
+    <div class="section-header">
+        <h3>Karakter Populer</h3>
+    </div>
+
+    <div class="store-grid">
+
+        <div class="store-card" onclick="openModal(this)"
+             data-name="Po – Dragon Warrior"
+             data-img="images/gambar-po.jpg"
+             data-desc="Po adalah panda terpilih yang menjadi Dragon Warrior.">
+            <img src="images/gambar-po.jpg">
+            <span>Po</span>
+        </div>
+
+        <div class="store-card" onclick="openModal(this)"
+             data-name="Tigress"
+             data-img="images/gambar-tigress.jpg"
+             data-desc="Pendekar kung fu terkuat dan anggota Furious Five.">
+            <img src="images/gambar-tigress.jpg">
+            <span>Tigress</span>
+        </div>
+
+        <div class="store-card" onclick="openModal(this)"
+             data-name="Master Shifu"
+             data-img="images/gambar-shifu.jpg"
+             data-desc="Guru kung fu yang melatih Po dan Furious Five.">
+            <img src="images/gambar-shifu.jpg">
+            <span>Master Shifu</span>
+        </div>
+
+        <div class="store-card focus-upper" onclick="openModal(this)"
+     data-name="Tai Lung"
+     data-img="images/gambar-tai-lung.jpg"
+     data-desc="Mantan murid Shifu yang berubah menjadi musuh berbahaya.">
+    <img src="images/gambar-tai-lung.jpg">
+    <span>Tai Lung</span>
+        </div>
+
+        <div class="store-card" onclick="openModal(this)"
+             data-name="Mantis"
+             data-img="images/gambar-mantis.jpg"
+             data-desc="Anggota Furious Five yang kecil dan sangat cepat.">
+            <img src="images/gambar-mantis.jpg">
+            <span>Mantis</span>
+        </div>
+<div class="store-card" onclick="openModal(this)"
+             data-name="Master Oogway"
+             data-img="images/gambar-master-oogway.jpg"
+             data-desc="Kura-kura tua dan pendiri kung fu.
+Bijaksana dan tenang.
+Sosok spiritual yang menentukan terpilihnya Dragon Warrior.">
+            <img src="images/gambar-master-oogway.jpg">
+            <span>Master Oogway</span>
+        </div>
+    </div>
+
+<div class="store-card" onclick="openModal(this)"
+             data-name="Monkey"
+             data-img="images/gambar-monkey.jpg"
+             data-desc="Gesit dan jenaka 
+             Ahli pertarungan jarak dekat.">
+            <img src="images/gambar-monkey.jpg">
+            <span>Monkey</span>
+        </div>
+    </div>
+<div class="store-card" onclick="openModal(this)"
+             data-name="Mr ping"
+             data-img="images/gambar-mr-ping.webp"
+             data-desc="Ayah angkat Po.
+Pemilik kedai mi.
+Sangat protektif dan penuh kasih.">
+            <img src="images/gambar-mr-ping.webp">
+            <span>Mr ping</span>
+        </div>
+    </div>
+    <div class="store-card" onclick="openModal(this)"
+             data-name="Li Shan"
+             data-img="images/gambar-li-shan.webp"
+             data-desc="Ayah kandung po.
+             Panda seperti Po, ceria dan santai.">
+            <img src="images/gambar-li-shan.webp">
+            <span>Li Shan</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2025 ghani.com
+</footer>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <img id="modal-img">
+        <h2 id="modal-title"></h2>
+        <p id="modal-desc"></p>
+    </div>
+</div>
+
+<script>
+function openModal(card) {
+    modal.classList.add("show");
+    modalImg.src = card.dataset.img;
+    modalTitle.innerText = card.dataset.name;
+    modalDesc.innerText = card.dataset.desc;
+}
+function closeModal(e) {
+    if (!e || e.target.id === "modal" || e.target.className === "close-btn") {
+        modal.classList.remove("show");
+    }
+}
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
+const modalTitle = document.getElementById("modal-title");
+const modalDesc = document.getElementById("modal-desc");
+</script>
+
+</body>
+</html>
+
