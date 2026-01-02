@@ -1,0 +1,714 @@
+/* ===================== */
+/* ===== RESET ======== */
+/* ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================= */
+/* ===== GLOBAL BODY =========== */
+/* ============================= */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+    background: url("images/bg-kungfu.jpg") center / cover no-repeat fixed;
+}
+
+/* ============================= */
+/* ===== TOP NAV =============== */
+/* ============================= */
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 40px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+}
+
+.logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.top-nav nav a {
+    color: #ddd;
+    margin-left: 22px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.top-nav nav a.active,
+.top-nav nav a:hover {
+    color: #ffcc80;
+}
+
+/* ============================= */
+/* ===== HERO BANNER (FINAL) === */
+/* ============================= */
+.hero-banner {
+    position: relative;
+    min-height: 78vh;
+    background: url("images/bg-kungfu.jpg") center / cover no-repeat;
+}
+
+/* OVERLAY MINIMALIS */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 60px;
+
+    /* 🔥 OVERLAY TIPIS & PROFESIONAL */
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.65),
+        rgba(255,255,255,0.35),
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0)
+    );
+}
+
+.hero-overlay h2 {
+    font-size: 48px;
+    color: #111;
+    margin-bottom: 10px;
+}
+
+.hero-overlay p {
+    max-width: 420px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* HERO BUTTON */
+.hero-btn {
+    width: fit-content;
+    padding: 12px 26px;
+    font-size: 15px;
+
+    background: rgba(0,0,0,0.05);
+    border: 2px solid #111;
+    color: #111;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+    background: #111;
+    color: #fff;
+}
+
+/* ============================= */
+/* ===== STORE / GALERI ======== */
+/* ============================= */
+.store-section {
+    padding: 60px 40px;
+    background: rgba(0,0,0,0.85);
+}
+
+.section-header h3 {
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+/* GRID */
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+}
+
+/* CARD */
+.store-card {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+
+    background: #111;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.store-card:hover {
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+}
+
+/* IMAGE */
+.store-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.store-card:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.1) contrast(1.1);
+}
+
+/* TITLE */
+.store-card span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    padding: 14px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.25)
+    );
+}
+
+/* ============================= */
+/* ===== MODAL ================= */
+/* ============================= */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    z-index: 9999;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #1e1e1e;
+    color: #fff;
+
+    width: 90%;
+    max-width: 420px;
+
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-content img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    object-position: center 20%;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #ffcc80;
+}
+
+/* ============================= */
+/* ===== FOOTER ================ */
+/* ============================= */
+footer {
+    background: #000;
+    color: #ccc;
+    text-align: center;
+    padding: 18px;
+}
+
+/* ============================= */
+/* ===== MOBILE ================= */
+/* ============================= */
+@media (max-width: 768px) {
+
+    .hero-overlay {
+        padding: 40px;
+        background: rgba(255,255,255,0.75);
+    }
+
+    .hero-overlay h2 {
+        font-size: 36px;
+    }
+}
+
+
+/* ===================================== */
+/* === CLEAN TOP (NO BLUR, NO DARK) ==== */
+/* === TEMPEL PALING BAWAH style.css ==== */
+/* ===================================== */
+
+/* HILANGKAN BLUR & GELAP DI NAV */
+.top-nav {
+    background: rgba(255,255,255,0.55) !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* Warna teks nav */
+.logo {
+    color: #111 !important;
+}
+
+.top-nav nav a {
+    color: #333 !important;
+}
+
+.top-nav nav a.active,
+.top-nav nav a:hover {
+    color: #b71c1c !important;
+}
+
+/* ===================================== */
+/* === HERO TANPA BLUR (MINIMAL) ======= */
+/* ===================================== */
+
+/* MATIKAN SEMUA BLUR */
+.hero-overlay {
+    backdrop-filter: none !important;
+}
+
+/* OVERLAY SUPER TIPIS (HAMPIR TRANSPARAN) */
+.hero-overlay {
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.45),
+        rgba(255,255,255,0.20),
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0)
+    ) !important;
+}
+
+/* TEKS HERO */
+.hero-overlay h2 {
+    color: #111 !important;
+    text-shadow: none !important;
+}
+
+.hero-overlay p {
+    color: #333 !important;
+    text-shadow: none !important;
+}
+
+/* TOMBOL HERO */
+.hero-btn {
+    background: transparent !important;
+    border: 2px solid #111 !important;
+    color: #111 !important;
+}
+
+.hero-btn:hover {
+    background: #111 !important;
+    color: #fff !important;
+}
+
+/* ===================================== */
+/* === MOBILE FIX ====================== */
+/* ===================================== */
+@media (max-width: 768px) {
+    .hero-overlay {
+        background: rgba(255,255,255,0.65) !important;
+        padding: 40px !important;
+    }
+}
+
+
+/* ===================================== */
+/* === CLEAN TOP BAR (TEXT ONLY) ======= */
+/* === TEMPEL PALING BAWAH style.css === */
+/* ===================================== */
+
+/* Header / Top Nav BENING TOTAL */
+.top-nav {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Logo */
+.logo {
+    color: #111 !important;
+    font-weight: bold;
+}
+
+/* Nav link */
+.top-nav nav a {
+    color: #111 !important;
+    font-weight: normal;
+}
+
+/* Aktif & hover */
+.top-nav nav a.active,
+.top-nav nav a:hover {
+    color: #b71c1c !important;
+}
+
+/* ===================================== */
+/* === HERO TANPA OVERLAY ============== */
+/* ===================================== */
+
+/* HAPUS SEMUA OVERLAY */
+.hero-overlay {
+    background: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Teks hero */
+.hero-overlay h2 {
+    color: #111 !important;
+    text-shadow: none !important;
+}
+
+.hero-overlay p {
+    color: #333 !important;
+    text-shadow: none !important;
+}
+
+/* Tombol hero */
+.hero-btn {
+    background: transparent !important;
+    border: 2px solid #111 !important;
+    color: #111 !important;
+}
+
+.hero-btn:hover {
+    background: #111 !important;
+    color: #fff !important;
+}
+
+/* ===================================== */
+/* === MOBILE FIX ====================== */
+/* ===================================== */
+@media (max-width: 768px) {
+    .top-nav {
+        position: relative;
+    }
+
+    .hero-overlay {
+        padding-top: 80px !important;
+    }
+}
+
+
+/* ===================================== */
+/* === FINAL FIX: HERO IMAGE NO CROP === */
+/* ===================================== */
+
+/* Hero banner: jangan potong gambar */
+.hero-banner {
+    background-size: contain !important;   /* ⬅️ inti solusi */
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    min-height: 85vh !important;
+    background-color: #f5e6c8; /* warna netral kalau ada ruang kosong */
+}
+
+/* Pastikan overlay benar-benar transparan */
+.hero-overlay {
+    background: transparent !important;
+    backdrop-filter: none !important;
+}
+
+/* Biar teks tetap kebaca tanpa nutup gambar */
+.hero-overlay h2,
+.hero-overlay p {
+    background: rgba(255,255,255,0.75);
+    color: #111 !important;
+    padding: 10px 14px;
+    border-radius: 6px;
+    max-width: 420px;
+}
+
+/* Tombol clean */
+.hero-btn {
+    background: rgba(255,255,255,0.85) !important;
+    color: #000 !important;
+    border: 2px solid #000 !important;
+}
+
+/* Mobile: tetap aman */
+@media (max-width: 768px) {
+    .hero-banner {
+        min-height: 70vh !important;
+    }
+}
+
+
+/* ===================================== */
+/* === REMOVE KARAKTER UTAMA SECTION === */
+/* ===================================== */
+
+/* Sembunyikan section karakter utama */
+.karakter-utama,
+.karakter-utama *,
+#karakter-utama {
+    display: none !important;
+}
+
+/* Kalau masih ada padding / margin sisa */
+body {
+    overflow-x: hidden;
+}
+
+/* Pastikan tidak ada gap putih */
+footer {
+    margin-top: 0 !important;
+}
+
+
+/* ================================= */
+/* === FOOTER ALWAYS AT BOTTOM ==== */
+/* ================================= */
+
+/* Buat body jadi flex column */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Semua konten utama fleksibel */
+main,
+.hero-banner {
+    flex: 1 0 auto;
+}
+
+/* Footer selalu di bawah */
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    background: #000 !important;
+    color: #ccc;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 14px;
+}
+
+
+/* ========================================= */
+/* ========== MOBILE RESPONSIVE 📱 ========= */
+/* === TEMPEL DI PALING BAWAH style.css ==== */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+    /* ===== HEADER / NAV ===== */
+    .top-nav {
+        padding: 12px 20px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .top-nav nav a {
+        font-size: 14px;
+        margin-left: 12px;
+    }
+
+    /* ===== HERO BANNER ===== */
+    .hero-banner {
+        height: auto;
+        min-height: 90vh;
+        background-position: center top;
+    }
+
+    .hero-overlay {
+        padding: 30px 20px;
+        align-items: flex-start;
+    }
+
+    .hero-overlay h2 {
+        font-size: 32px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    .hero-overlay p {
+        font-size: 15px;
+        max-width: 100%;
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+
+    /* Tombol */
+    .hero-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+
+    /* ===== STORE / GALERI ===== */
+    .store-section {
+        padding: 30px 20px;
+    }
+
+    .store-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .store-card {
+        height: 240px;
+    }
+
+    .store-card span {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-content {
+        max-width: 90%;
+        padding: 18px;
+    }
+
+    .modal-content img {
+        height: 220px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .modal-content p {
+        font-size: 14px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+        font-size: 13px;
+        padding: 12px;
+        text-align: center;
+    }
+}
+
+/* ===== EXTRA SMALL (HP KECIL) ===== */
+@media (max-width: 480px) {
+
+    .hero-overlay h2 {
+        font-size: 26px;
+    }
+
+    .hero-overlay p {
+        font-size: 14px;
+    }
+
+    .store-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .store-card {
+        height: 260px;
+    }
+}
+
+/* =============================== */
+/* 📱 MOBILE FULL SCREEN MODE */
+/* =============================== */
+
+@media (max-width: 768px) {
+
+    body {
+        min-height: 100svh; /* tinggi layar asli HP */
+        padding: env(safe-area-inset-top)
+                 env(safe-area-inset-right)
+                 env(safe-area-inset-bottom)
+                 env(safe-area-inset-left);
+    }
+
+    .game-box {
+        width: 100%;
+        max-width: none;
+        height: 100svh;
+        border-radius: 0;
+        box-shadow: none;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .soal {
+        font-size: 32px;
+        margin: 16px 0;
+    }
+
+    input {
+        font-size: 20px;
+        padding: 14px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 14px;
+    }
+
+    .info {
+        font-size: 14px;
+        margin-top: 12px;
+    }
+
+    #cara {
+        font-size: 14px;
+        margin-top: 12px;
+        max-height: 40vh;
+        overflow-y: auto;
+    }
+
+}
+
+
