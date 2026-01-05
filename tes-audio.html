@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:40px">
+
+<button onclick="play()">PLAY AUDIO</button>
+
+<script>
+let a = new Audio("sounds/bg-music.mp3");
+
+function play(){
+    a.play()
+     .then(()=>alert("BUNYI"))
+     .catch(e=>alert("DIBLOKIR"));
+}
+</script>
+
+</body>
+</html>

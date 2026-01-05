@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Game Matematika</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#ffcc80,#ff8a65);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    background:#eafff0;
+    width:360px;
+    max-width:92%;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 25px 50px rgba(0,0,0,.3);
+    text-align:center;
+}
+
+h2{margin:0 0 10px}
+
+select,input{
+    width:93%;
+    padding:12px;
+    font-size:16px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+}
+
+.soal{
+    font-size:26px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    margin-top:6px;
+    cursor:pointer;
+    color:#fff;
+}
+
+.jawab{background:#ff7043}
+.mulai{background:#4caf50}
+.stop{background:#f44336}
+.reset{background:#2196f3}
+
+.info{
+    font-size:14px;
+    margin-top:10px;
+    line-height:1.5;
+}
+
+.volume{
+    margin-top:12px;
+    text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🧠 Game Matematika</h2>
+
+    <!-- LEVEL -->
+    <select id="level">
+        <option value="1">Level 1 (×1)</option>
+        <option value="2">Level 2 (×2)</option>
+        <option value="3">Level 3 (×3)</option>
+        <option value="4">Level 4 (×4)</option>
+        <option value="5">Level 5 (×5)</option>
+        <option value="6">Level 6 (×6)</option>
+        <option value="7">Level 7 (×7)</option>
+        <option value="8">Level 8 (×8)</option>
+        <option value="9">Level 9 (×9)</option>
+        <option value="10">Level 10 (×10)</option>
+    </select>
+
+    <div id="soal" class="soal">Tekan Mulai</div>
+
+    <input type="text" id="jawaban" inputmode="numeric" placeholder="Jawaban">
+
+    <button class="jawab" onclick="cekJawaban()">Jawab</button>
+    <button class="mulai" onclick="playAudioAndStart()">▶ Mulai</button>
+    <button class="stop" onclick="stopGame()">■ Stop</button>
+    <button class="reset" onclick="resetGame()">🔄 Reset</button>
+
+    <div class="info">
+        ⏱ Waktu: <span id="waktu">60</span> detik<br>
+        ⭐ Skor: <span id="skor">0</span><br>
+        ✔ Benar: <span id="benar">0</span> |
+        ✖ Salah: <span id="salah">0</span>
+    </div>
+
+    <div class="volume">
+        🔊 Volume
+        <input type="range" min="0" max="1" step="0.01" value="0.5"
+               oninput="aturVolume(this.value)">
+    </div>
+</div>
+
+<script>
+// ================= AUDIO (JANGAN DIUBAH)
+let bgm = null;
+let sfxBenar = null;
+let sfxSalah = null;
+
+function initAudio(){
+    if(!bgm){
+        bgm = new Audio("sounds/bg-music.mp3");
+        bgm.loop = true;
+        bgm.volume = 0.5;
+
+        sfxBenar = new Audio("sounds/correct.mp3");
+        sfxSalah = new Audio("sounds/wrong.mp3");
+    }
+}
+
+// ================= GAME
+let a,b,hasil;
+let skor=0, benar=0, salah=0;
+let waktu=60;
+let timer=null;
+let gameAktif=false;
+
+// ================= MULAI
+function playAudioAndStart(){
+    initAudio();
+    bgm.play().catch(()=>{});
+    mulaiGame();
+}
+
+function mulaiGame(){
+    if(gameAktif) return;
+    gameAktif=true;
+    buatSoal();
+
+    timer=setInterval(()=>{
+        waktu--;
+        waktuEl.innerText=waktu;
+        if(waktu<=0) stopGame();
+    },1000);
+}
+
+function stopGame(){
+    gameAktif=false;
+    clearInterval(timer);
+    if(bgm) bgm.pause();
+}
+
+// ================= RESET
+function resetGame(){
+    stopGame();
+    skor=0; benar=0; salah=0;
+    waktu=60;
+
+    skorEl.innerText=0;
+    benarEl.innerText=0;
+    salahEl.innerText=0;
+    waktuEl.innerText=60;
+
+    soalEl.innerText="Tekan Mulai";
+    jawaban.value="";
+}
+
+// ================= SOAL
+function buatSoal(){
+    const lvl = parseInt(level.value);
+    a = lvl;
+    b = Math.floor(Math.random()*10)+1;
+    hasil = a*b;
+    soalEl.innerText = `${a} × ${b} = ?`;
+}
+
+// ================= CEK
+function cekJawaban(){
+    if(!gameAktif) return;
+
+    let j = parseInt(jawaban.value);
+    if(j === hasil){
+        skor+=10; benar++;
+        sfxBenar.currentTime=0;
+        sfxBenar.play();
+    }else{
+        salah++;
+        sfxSalah.currentTime=0;
+        sfxSalah.play();
+    }
+
+    skorEl.innerText=skor;
+    benarEl.innerText=benar;
+    salahEl.innerText=salah;
+
+    jawaban.value="";
+    buatSoal();
+}
+
+// ================= VOLUME
+function aturVolume(v){
+    if(bgm) bgm.volume=v;
+}
+
+// ================= SHORTCUT
+const soalEl=document.getElementById("soal");
+const jawaban=document.getElementById("jawaban");
+const skorEl=document.getElementById("skor");
+const benarEl=document.getElementById("benar");
+const salahEl=document.getElementById("salah");
+const waktuEl=document.getElementById("waktu");
+</script>
+
+</body>
+</html>
