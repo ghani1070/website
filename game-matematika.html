@@ -35,6 +35,7 @@ select,input{
     border-radius:10px;
     border:1px solid #ccc;
     margin-bottom:10px;
+    box-sizing:border-box;
 }
 
 .soal{
@@ -58,6 +59,7 @@ button{
 .mulai{background:#4caf50}
 .stop{background:#f44336}
 .reset{background:#2196f3}
+.berikutnya{background:#0288d1}
 
 .info{
     font-size:14px;
@@ -69,15 +71,22 @@ button{
     margin-top:12px;
     text-align:left;
 }
+
+/* Hilangkan spinner input number */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+input[type=number]{ -moz-appearance:textfield; }
 </style>
 </head>
 
 <body>
 
 <div class="box">
-    <h2>Game Asah Otak Matematika by ghani</h2>
+    <h2>Game Asah Otak Matematika<br>by ghani</h2>
 
-    <!-- LEVEL -->
     <select id="level">
         <option value="1">Level 1 (×1)</option>
         <option value="2">Level 2 (×2)</option>
@@ -93,13 +102,13 @@ button{
 
     <div id="soal" class="soal">Tekan Mulai</div>
 
-    <input type="text" id="jawaban" inputmode="numeric" placeholder="Jawaban">
+    <input type="number" id="jawaban" placeholder="Jawaban">
 
     <button class="jawab" onclick="cekJawaban()">Jawab</button>
     <button class="mulai" onclick="playAudioAndStart()">▶ Mulai</button>
     <button class="stop" onclick="stopGame()">■ Berhenti</button>
     <button class="reset" onclick="resetGame()">🔄 Mengatur ulang</button>
-    <button class="berikutnya" onclick="berikutnya()">Berikutnya</button>
+    <button class="berikutnya" onclick="berikutnya()">➡ Berikutnya</button>
 
     <div class="info">
         ⏱ Waktu: <span id="waktu">600</span> detik<br>
@@ -116,10 +125,8 @@ button{
 </div>
 
 <script>
-// ================= AUDIO (JANGAN DIUBAH)
-let bgm = null;
-let sfxBenar = null;
-let sfxSalah = null;
+// ================= AUDIO
+let bgm, sfxBenar, sfxSalah;
 
 function initAudio(){
     if(!bgm){
@@ -132,7 +139,7 @@ function initAudio(){
     }
 }
 
-// ================= GAME
+// ================= GAME STATE
 let a,b,hasil;
 let skor=0, benar=0, salah=0;
 let waktu=600;
@@ -158,6 +165,7 @@ function mulaiGame(){
     },1000);
 }
 
+// ================= STOP
 function stopGame(){
     gameAktif=false;
     clearInterval(timer);
@@ -178,42 +186,33 @@ function resetGame(){
     soalEl.innerText="Tekan Mulai";
     jawaban.value="";
 }
-const btnNext = document.getElementById("btnNext");
-const levelSelect = document.getElementById("level");
-const inputJawaban = document.getElementById("jawaban");
 
-btnNext.addEventListener("click", () => {
-    let levelSekarang = parseInt(levelSelect.value);
+// ================= BERIKUTNYA (NAIK LEVEL)
+function berikutnya(){
+    if(!gameAktif) return;
 
-    // kalau sudah level 10
-    if (levelSekarang >= 10) {
+    let lvl = parseInt(level.value);
+    if(lvl >= 10){
         alert("🎉 Kamu sudah mencapai level tertinggi!");
+        stopGame();
         return;
     }
 
-    // naikkan level
-    levelSelect.value = levelSekarang + 1;
-
-    // kosongkan jawaban
-    inputJawaban.value = "";
-
-    // buat soal baru sesuai level
+    level.value = lvl + 1;
+    jawaban.value="";
     buatSoal();
-
-    // fokus ke input
-    inputJawaban.focus();
-});
+    jawaban.focus();
+}
 
 // ================= SOAL
 function buatSoal(){
-    const lvl = parseInt(level.value);
-    a = lvl;
+    a = parseInt(level.value);
     b = Math.floor(Math.random()*10)+1;
     hasil = a*b;
     soalEl.innerText = `${a} × ${b} = ?`;
 }
 
-// ================= CEK
+// ================= CEK JAWABAN
 function cekJawaban(){
     if(!gameAktif) return;
 
@@ -241,13 +240,14 @@ function aturVolume(v){
     if(bgm) bgm.volume=v;
 }
 
-// ================= SHORTCUT
+// ================= ELEMENT
 const soalEl=document.getElementById("soal");
 const jawaban=document.getElementById("jawaban");
 const skorEl=document.getElementById("skor");
 const benarEl=document.getElementById("benar");
 const salahEl=document.getElementById("salah");
 const waktuEl=document.getElementById("waktu");
+const level=document.getElementById("level");
 </script>
 
 </body>
