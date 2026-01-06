@@ -94,6 +94,7 @@ button{
     <div id="soal" class="soal">Tekan Mulai</div>
 
     <input type="text" id="jawaban" inputmode="numeric" placeholder="Jawaban">
+    <button id="btnNext">Berikutnya</button>
 
     <button class="jawab" onclick="cekJawaban()">Jawab</button>
     <button class="mulai" onclick="playAudioAndStart()">▶ Mulai</button>
@@ -178,6 +179,31 @@ function resetGame(){
     soalEl.innerText="Tekan Mulai";
     jawaban.value="";
 }
+const btnNext = document.getElementById("btnNext");
+const levelSelect = document.getElementById("level");
+const inputJawaban = document.getElementById("jawaban");
+
+btnNext.addEventListener("click", () => {
+    let levelSekarang = parseInt(levelSelect.value);
+
+    // kalau sudah level 10
+    if (levelSekarang >= 10) {
+        alert("🎉 Kamu sudah mencapai level tertinggi!");
+        return;
+    }
+
+    // naikkan level
+    levelSelect.value = levelSekarang + 1;
+
+    // kosongkan jawaban
+    inputJawaban.value = "";
+
+    // buat soal baru sesuai level
+    buatSoal();
+
+    // fokus ke input
+    inputJawaban.focus();
+});
 
 // ================= SOAL
 function buatSoal(){
