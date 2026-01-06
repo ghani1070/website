@@ -101,7 +101,7 @@ button{
     <button class="reset" onclick="resetGame()">🔄 Reset</button>
 
     <div class="info">
-        ⏱ Waktu: <span id="waktu">60</span> detik<br>
+        ⏱ Waktu: <span id="waktu">600</span> detik<br>
         ⭐ Skor: <span id="skor">0</span><br>
         ✔ Benar: <span id="benar">0</span> |
         ✖ Salah: <span id="salah">0</span>
@@ -167,7 +167,7 @@ function stopGame(){
 function resetGame(){
     stopGame();
     skor=0; benar=0; salah=0;
-    waktu=60;
+    waktu=600;
 
     skorEl.innerText=0;
     benarEl.innerText=0;
