@@ -6,16 +6,24 @@
 <title>Game Matematika by ghani</title>
 
 <style>
-body{
+/* ================= RESET ================= */
+*{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#ffcc80,#ff8a65);
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ================= BODY ================= */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#ffcc80,#ff8a65);
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
+/* ================= BOX ================= */
 .box{
     background:#eafff0;
     width:360px;
@@ -26,16 +34,9 @@ body{
     text-align:center;
 }
 
-h2{margin:0 0 10px}
-
-select,input{
-    width:93%;
-    padding:12px;
-    font-size:16px;
-    border-radius:10px;
-    border:1px solid #ccc;
+/* ================= TEXT ================= */
+h2{
     margin-bottom:10px;
-    box-sizing:border-box;
 }
 
 .soal{
@@ -44,6 +45,29 @@ select,input{
     margin:12px 0;
 }
 
+/* ================= FORM ================= */
+select,
+input{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+}
+
+/* Hilangkan spinner input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+input[type="number"]{
+    appearance:textfield;
+}
+
+/* ================= BUTTON ================= */
 button{
     width:100%;
     padding:12px;
@@ -61,24 +85,37 @@ button{
 .reset{background:#2196f3}
 .berikutnya{background:#0288d1}
 
+/* ================= INFO ================= */
 .info{
     font-size:14px;
     margin-top:10px;
     line-height:1.5;
 }
 
+/* ================= VOLUME ================= */
 .volume{
     margin-top:12px;
     text-align:left;
 }
 
-/* Hilangkan spinner input number */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{
-    -webkit-appearance:none;
-    margin:0;
+/* ================= MOBILE ================= */
+@media (max-width:480px){
+    .box{
+        width:100%;
+        border-radius:0;
+        min-height:100vh;
+        box-shadow:none;
+    }
+
+    .soal{
+        font-size:30px;
+    }
+
+    button{
+        font-size:18px;
+        padding:14px;
+    }
 }
-input[type=number]{ -moz-appearance:textfield; }
 </style>
 </head>
 
@@ -105,9 +142,9 @@ input[type=number]{ -moz-appearance:textfield; }
     <input type="number" id="jawaban" placeholder="Jawaban">
 
     <button class="jawab" onclick="cekJawaban()">Jawab</button>
-    <button class="mulai" onclick="playAudioAndStart()">▶ Mulai</button>
+    <button class="mulai" onclick="mulaiGame()">▶ Mulai</button>
     <button class="stop" onclick="stopGame()">■ Berhenti</button>
-    <button class="reset" onclick="resetGame()">🔄 Mengatur ulang</button>
+    <button class="reset" onclick="resetGame()">🔄 Reset</button>
     <button class="berikutnya" onclick="berikutnya()">➡ Berikutnya</button>
 
     <div class="info">
@@ -125,37 +162,25 @@ input[type=number]{ -moz-appearance:textfield; }
 </div>
 
 <script>
-// ================= AUDIO
-let bgm, sfxBenar, sfxSalah;
+/* ================= AUDIO ================= */
+let bgm = new Audio("sounds/bg-music.mp3");
+let sfxBenar = new Audio("sounds/correct.mp3");
+let sfxSalah = new Audio("sounds/wrong.mp3");
+bgm.loop = true;
+bgm.volume = 0.5;
 
-function initAudio(){
-    if(!bgm){
-        bgm = new Audio("sounds/bg-music.mp3");
-        bgm.loop = true;
-        bgm.volume = 0.5;
-
-        sfxBenar = new Audio("sounds/correct.mp3");
-        sfxSalah = new Audio("sounds/wrong.mp3");
-    }
-}
-
-// ================= GAME STATE
+/* ================= STATE ================= */
 let a,b,hasil;
 let skor=0, benar=0, salah=0;
 let waktu=600;
 let timer=null;
 let gameAktif=false;
 
-// ================= MULAI
-function playAudioAndStart(){
-    initAudio();
-    bgm.play().catch(()=>{});
-    mulaiGame();
-}
-
+/* ================= GAME ================= */
 function mulaiGame(){
     if(gameAktif) return;
     gameAktif=true;
+    bgm.play().catch(()=>{});
     buatSoal();
 
     timer=setInterval(()=>{
@@ -165,82 +190,65 @@ function mulaiGame(){
     },1000);
 }
 
-// ================= STOP
 function stopGame(){
     gameAktif=false;
     clearInterval(timer);
-    if(bgm) bgm.pause();
+    bgm.pause();
 }
 
-// ================= RESET
 function resetGame(){
     stopGame();
-    skor=0; benar=0; salah=0;
+    skor=benar=salah=0;
     waktu=600;
-
-    skorEl.innerText=0;
-    benarEl.innerText=0;
-    salahEl.innerText=0;
-    waktuEl.innerText=600;
-
     soalEl.innerText="Tekan Mulai";
+    updateInfo();
     jawaban.value="";
 }
 
-// ================= BERIKUTNYA (NAIK LEVEL)
 function berikutnya(){
-    if(!gameAktif) return;
-
-    let lvl = parseInt(level.value);
-    if(lvl >= 10){
-        alert("🎉 Kamu sudah mencapai level tertinggi!");
-        stopGame();
-        return;
+    let lvl=parseInt(level.value);
+    if(lvl<10){
+        level.value=lvl+1;
+        buatSoal();
+    }else{
+        alert("🎉 Level tertinggi tercapai!");
     }
-
-    level.value = lvl + 1;
-    jawaban.value="";
-    buatSoal();
-    jawaban.focus();
 }
 
-// ================= SOAL
 function buatSoal(){
-    a = parseInt(level.value);
-    b = Math.floor(Math.random()*10)+1;
-    hasil = a*b;
-    soalEl.innerText = `${a} × ${b} = ?`;
+    a=parseInt(level.value);
+    b=Math.floor(Math.random()*10)+1;
+    hasil=a*b;
+    soalEl.innerText=`${a} × ${b} = ?`;
 }
 
-// ================= CEK JAWABAN
 function cekJawaban(){
     if(!gameAktif) return;
-
-    let j = parseInt(jawaban.value);
-    if(j === hasil){
+    let j=parseInt(jawaban.value);
+    if(j===hasil){
         skor+=10; benar++;
-        sfxBenar.currentTime=0;
         sfxBenar.play();
     }else{
         salah++;
-        sfxSalah.currentTime=0;
         sfxSalah.play();
     }
-
-    skorEl.innerText=skor;
-    benarEl.innerText=benar;
-    salahEl.innerText=salah;
-
+    updateInfo();
     jawaban.value="";
     buatSoal();
 }
 
-// ================= VOLUME
-function aturVolume(v){
-    if(bgm) bgm.volume=v;
+function updateInfo(){
+    skorEl.innerText=skor;
+    benarEl.innerText=benar;
+    salahEl.innerText=salah;
+    waktuEl.innerText=waktu;
 }
 
-// ================= ELEMENT
+function aturVolume(v){
+    bgm.volume=v;
+}
+
+/* ================= ELEMENT ================= */
 const soalEl=document.getElementById("soal");
 const jawaban=document.getElementById("jawaban");
 const skorEl=document.getElementById("skor");
